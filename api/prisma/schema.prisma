@@ -1,0 +1,151 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  createdMeetings    Meeting[]      @relation("UserCreatedMeetings")
+  participants       Participant[]
+  createdActionItems ActionItem[]   @relation("CreatedByUser")
+  assignedActions    ActionItem[]   @relation("AssignedByUser")
+  assignedToActions  ActionItem[]   @relation("AssignedToUser")
+  userNotifications  Notification[] @relation("UserNotifications")
+
+  @@index([name, email], map: "idx_users_name_email")
+  @@index([email], map: "idx_users_email")
+  @@index([name], map: "idx_users_name")
+}
+
+model Meeting {
+  id          Int           @id @default(autoincrement())
+  title       String
+  description String
+  shareLink   String        @unique @default(uuid())
+  startTime   DateTime      @default(now())
+  endTime     DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  status      MeetingStatus @default(SCHEDULED)
+
+  creatorId Int
+
+  creator      User          @relation("UserCreatedMeetings", fields: [creatorId], references: [id])
+  notes        MeetingNote?
+  participants Participant[]
+  actionItems  ActionItem[]
+}
+
+model Participant {
+  id        Int             @id @default(autoincrement())
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  role      ParticipantRole @default(PARTICIPANT)
+
+  meetingId Int
+  userId    Int
+
+  user    User    @relation(fields: [userId], references: [id])
+  meeting Meeting @relation(fields: [meetingId], references: [id])
+
+  @@unique([userId, meetingId])
+}
+
+model ActionItem {
+  id          Int              @id @default(autoincrement())
+  title       String
+  description String
+  isCompleted Boolean          @default(false)
+  status      ActionItemStatus @default(OPEN)
+  priority    Priority         @default(MEDIUM)
+  dueDate     DateTime?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  meetingId    Int
+  createdById  Int
+  assignedById Int
+  assignedToId Int
+
+  createdBy  User    @relation("CreatedByUser", fields: [createdById], references: [id])
+  assignedTo User    @relation("AssignedToUser", fields: [assignedToId], references: [id])
+  assignedBy User    @relation("AssignedByUser", fields: [assignedById], references: [id])
+  meeting    Meeting @relation(fields: [meetingId], references: [id])
+}
+
+model MeetingNote {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  meetingId Int @unique
+
+  meeting Meeting @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+}
+
+model Notification {
+  id        Int              @id @default(autoincrement())
+  title     String
+  message   String
+  type      NotificationType @default(INFO)
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  userId      Int
+  relatedId   Int?
+  relatedType String?
+
+  user User @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead])
+  @@index([createdAt])
+}
+
+enum ParticipantRole {
+  PARTICIPANT
+  CREATOR
+}
+
+enum MeetingStatus {
+  SCHEDULED
+  ACTIVE
+  ENDED
+  CANCELLED
+}
+
+enum ActionItemStatus {
+  OPEN
+  IN_PROGRESS
+  DONE
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum NotificationType {
+  INFO
+  SUCCESS
+  WARNING
+  ERROR
+  PARTICIPANT_ADDED
+  ACTION_ITEM_ASSIGNED
+  ACTION_ITEM_UPDATED
+  MEETING_UPDATED
+  MEETING_REMINDER
+}

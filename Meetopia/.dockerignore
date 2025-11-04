@@ -1,0 +1,27 @@
+# Dependencies
+node_modules
+npm-debug.log*
+
+# Build outputs
+dist
+build
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE and OS files
+.vscode
+.idea
+.DS_Store
+*.swp
+*~
+
+# Logs
+logs
+*.log
+
+# Cache
+.cache
+.eslintcache
