@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import Navbar from './components/Navbar.vue'
 
 const route = useRoute()
-const router = useRouter()
 const authStore = useAuthStore()
 
 const showNavbar = computed(() => !route.path.startsWith('/dashboard'))
@@ -13,11 +12,6 @@ const isCheckingAuth = ref(true)
 
 onMounted(async () => {
   await authStore.checkAuth()
-
-  // Only redirect if on guest pages and authenticated
-  if (authStore.isAuthenticated && (route.path === '/' || route.path === '/login' || route.path === '/register')) {
-    router.push('/dashboard')
-  }
   isCheckingAuth.value = false
 })
 </script>

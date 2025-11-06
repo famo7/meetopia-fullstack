@@ -136,7 +136,8 @@
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction @click="handleClearAll" :disabled="isClearingAll" class="bg-destructive hover:bg-destructive/90">
+          <AlertDialogAction @click="handleClearAll" :disabled="isClearingAll"
+            class="bg-destructive hover:bg-destructive/90">
             <Loader2 v-if="isClearingAll" class="mr-2 h-4 w-4 animate-spin" />
             Clear all
           </AlertDialogAction>
