@@ -11,7 +11,7 @@ export const CreateMeetingSchema = z.object({
     .default(''),
 
   startTime: z.coerce.date()
-    .refine((meetingDate) => {
+    .refine((meetingDate: Date) => {
       const now = new Date()
       // Allow meetings to be scheduled at least 5 minutes from now
       const minTime = new Date(now.getTime() + 5 * 60 * 1000)
@@ -21,7 +21,15 @@ export const CreateMeetingSchema = z.object({
     }),
 
   endTime: z.coerce.date()
-    .optional()
+    .refine((endTime: number, ctx: { parent: { startTime: any; }; }) => {
+      const startTime = ctx.parent.startTime
+      if (startTime && endTime <= startTime) {
+        return false
+      }
+      return true
+    }, {
+      message: 'End time must be after start time'
+    })
 });
 
 export const UpdateMeetingSchema = z.object({

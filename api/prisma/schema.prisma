@@ -34,7 +34,7 @@ model Meeting {
   description String
   shareLink   String        @unique @default(uuid())
   startTime   DateTime      @default(now())
-  endTime     DateTime?
+  endTime     DateTime
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   status      MeetingStatus @default(SCHEDULED)

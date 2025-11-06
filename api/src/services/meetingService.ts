@@ -34,7 +34,7 @@ export class MeetingService {
         title: data.title,
         description: data.description,
         startTime: new Date(data.startTime),
-        endTime: data.endTime ? new Date(data.endTime) : null,
+        endTime: new Date(data.endTime),
         creatorId: userId
       }
     });
@@ -58,7 +58,7 @@ export class MeetingService {
       if (data.title !== undefined) updateData.title = data.title;
       if (data.description !== undefined) updateData.description = data.description;
       if (data.startTime !== undefined) updateData.startTime = new Date(data.startTime);
-      if (data.endTime !== undefined) updateData.endTime = data.endTime ? new Date(data.endTime) : null;
+      if (data.endTime !== undefined) updateData.endTime = new Date(data.endTime);
       if (data.status !== undefined) updateData.status = data.status;
 
       return await prisma.meeting.update({
