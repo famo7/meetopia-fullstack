@@ -6,7 +6,7 @@ services:
     ports:
       - "80:80"
     env_file:
-      - .env
+      - .env.prod
     depends_on:
       - backend
 
@@ -17,14 +17,14 @@ services:
     ports:
       - "3000:3000"
     env_file:
-      - .env
+      - .env.prod
     depends_on:
       - postgres
 
   postgres:
     image: postgres:18-alpine
     env_file:
-      - .env
+      - .env.prod
     volumes:
       - postgres_data:/var/lib/postgresql/data
 

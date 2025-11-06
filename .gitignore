@@ -6,7 +6,7 @@ api/.git
 .env
 .env.local
 .env.*.local
-
+.env.prod
 # Dependencies
 node_modules
 */node_modules

@@ -5,7 +5,8 @@
       <div class="flex items-center justify-between max-w-7xl mx-auto">
         <div class="flex items-center gap-4">
           <h1 class="text-lg font-semibold tracking-tight">{{ meeting?.title || 'Loading...' }}</h1>
-          <Badge variant="default" class="bg-green-500 text-white hover:bg-green-500 flex items-center gap-1.5 rounded-full">
+          <Badge variant="default"
+            class="bg-green-500 text-white hover:bg-green-500 flex items-center gap-1.5 rounded-full">
             <div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>
             Live
           </Badge>
@@ -199,7 +200,7 @@
           </div>
 
           <!-- Action Items -->
-          <ActionItemManager :meeting-id="parseInt(route.params.id as string)"  />
+          <ActionItemManager :meeting-id="parseInt(route.params.id as string)" />
         </div>
       </div>
 
@@ -214,7 +215,8 @@
             <div v-for="user in connectedUsers" :key="user.socketId"
               class="flex items-center gap-3 p-3 rounded-xl bg-muted/50 hover:bg-muted/80 transition-all duration-200">
               <div class="relative">
-                <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold text-foreground"
+                <div
+                  class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold text-foreground"
                   :style="{ backgroundColor: user.color }">
                   {{ getInitials(user.userName) }}
                 </div>

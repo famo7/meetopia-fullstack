@@ -8,8 +8,9 @@ services:
     volumes:
       - ./Meetopia:/app
       - /app/node_modules
-    env_file:
-      - .env
+    environment:
+      - VITE_API_URL=${VITE_API_URL}
+      - VITE_SOCKET_URL=${VITE_SOCKET_URL}
     depends_on:
       - backend
 
