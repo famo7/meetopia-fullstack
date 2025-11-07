@@ -10,26 +10,48 @@ export const CreateMeetingSchema = z.object({
     .optional()
     .default(''),
 
-  startTime: z.coerce.date()
-    .refine((meetingDate: Date) => {
-      const now = new Date()
-      // Allow meetings to be scheduled at least 5 minutes from now
-      const minTime = new Date(now.getTime() + 5 * 60 * 1000)
-      return meetingDate >= minTime
-    }, {
+  startTime: z.string().min(1, 'Start time is required'),
+  endTime: z.string().min(1, 'End time is required'),
+}).superRefine((data: any, ctx: any) => {
+  // Parse start time
+  const startTime = new Date(data.startTime);
+  const endTime = new Date(data.endTime);
+  
+  if (isNaN(startTime.getTime())) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.invalid_date,
+      path: ['startTime'],
+      message: 'Invalid start time format'
+    });
+    return;
+  }
+  
+  if (isNaN(endTime.getTime())) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.invalid_date,
+      path: ['endTime'],
+      message: 'Invalid end time format'
+    });
+    return;
+  }
+  
+  const now = new Date();
+  const minTime = new Date(now.getTime() + 5 * 60 * 1000);
+  if (startTime < minTime) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['startTime'],
       message: 'Meeting must be scheduled at least 5 minutes from now'
-    }),
-
-  endTime: z.coerce.date()
-    .refine((endTime: number, ctx: { parent: { startTime: any; }; }) => {
-      const startTime = ctx.parent.startTime
-      if (startTime && endTime <= startTime) {
-        return false
-      }
-      return true
-    }, {
+    });
+  }
+  
+  if (endTime <= startTime) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['endTime'],
       message: 'End time must be after start time'
-    })
+    });
+  }
 });
 
 export const UpdateMeetingSchema = z.object({

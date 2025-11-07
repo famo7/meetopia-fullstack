@@ -15,7 +15,7 @@ export interface CreateMeetingRequest {
   title: string
   description?: string
   startTime: string
-  endTime?: string
+  endTime: string
 }
 
 export interface UpdateMeetingRequest {

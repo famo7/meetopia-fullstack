@@ -36,35 +36,35 @@
           <p class="text-xs text-muted-foreground">{{ formData.title.length }}/200</p>
         </div>
 
-        <!-- Date & Time Row -->
-        <div class="grid grid-cols-2 gap-4">
-          <!-- Date Picker -->
-          <div class="space-y-2">
-            <Label>
-              Date
-              <span class="text-destructive">*</span>
-            </Label>
-            <Popover>
-              <PopoverTrigger as-child>
-                <Button variant="outline" :class="cn(
-                  'w-full justify-start text-left font-normal',
-                  !selectedDate && 'text-muted-foreground',
-                )" :disabled="isLoading">
-                  <CalendarIcon class="mr-2 h-4 w-4" />
-                  {{ selectedDate ? df.format(selectedDate.toDate(getLocalTimeZone())) : 'Pick a date' }}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent class="w-auto p-0">
-                <Calendar v-model="selectedDate" :min-value="today(getLocalTimeZone())" initial-focus />
-              </PopoverContent>
-            </Popover>
-            <p v-if="errors.date" class="text-sm text-destructive">{{ errors.date }}</p>
-          </div>
+        <!-- Date Picker -->
+        <div class="space-y-2">
+          <Label>
+            Date
+            <span class="text-destructive">*</span>
+          </Label>
+          <Popover>
+            <PopoverTrigger as-child>
+              <Button variant="outline" :class="cn(
+                'w-full justify-start text-left font-normal',
+                !selectedDate && 'text-muted-foreground',
+              )" :disabled="isLoading">
+                <CalendarIcon class="mr-2 h-4 w-4" />
+                {{ selectedDate ? df.format(selectedDate.toDate(getLocalTimeZone())) : 'Pick a date' }}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent class="w-auto p-0">
+              <Calendar v-model="selectedDate" :min-value="today(getLocalTimeZone())" initial-focus />
+            </PopoverContent>
+          </Popover>
+          <p v-if="errors.date" class="text-sm text-destructive">{{ errors.date }}</p>
+        </div>
 
-          <!-- Time Picker -->
+        <!-- Start and End Time Row -->
+        <div class="grid grid-cols-2 gap-4">
+          <!-- Start Time Picker -->
           <div class="space-y-2">
             <Label>
-              Time
+              Start Time
               <span class="text-destructive">*</span>
             </Label>
             <Popover>
@@ -74,7 +74,7 @@
                   !selectedTime && 'text-muted-foreground',
                 )" :disabled="isLoading">
                   <Clock class="mr-2 h-4 w-4" />
-                  {{ selectedTime || 'Select time' }}
+                  {{ selectedTime || 'Select start time' }}
                 </Button>
               </PopoverTrigger>
               <PopoverContent class="w-auto p-0" align="start">
@@ -101,6 +101,48 @@
               </PopoverContent>
             </Popover>
             <p v-if="errors.time" class="text-sm text-destructive">{{ errors.time }}</p>
+          </div>
+
+          <!-- End Time Picker -->
+          <div class="space-y-2">
+            <Label>
+              End Time
+              <span class="text-destructive">*</span>
+            </Label>
+            <Popover>
+              <PopoverTrigger as-child>
+                <Button variant="outline" :class="cn(
+                  'w-full justify-start text-left font-normal',
+                  !selectedEndTime && 'text-muted-foreground',
+                )" :disabled="isLoading">
+                  <Clock class="mr-2 h-4 w-4" />
+                  {{ selectedEndTime || 'Select end time' }}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent class="w-auto p-0" align="start">
+                <div class="p-3">
+                  <div class="flex gap-2">
+                    <div class="flex-1">
+                      <Label class="text-xs text-muted-foreground mb-1 block">Hour</Label>
+                      <select v-model="selectedEndHour"
+                        class="w-full px-3 py-2 rounded-md border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                        @change="updateEndTime">
+                        <option v-for="h in hours" :key="h" :value="h">{{ h }}</option>
+                      </select>
+                    </div>
+                    <div class="flex-1">
+                      <Label class="text-xs text-muted-foreground mb-1 block">Minute</Label>
+                      <select v-model="selectedEndMinute"
+                        class="w-full px-3 py-2 rounded-md border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                        @change="updateEndTime">
+                        <option v-for="m in minutes" :key="m" :value="m">{{ m }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
+            <p v-if="errors.endTime" class="text-sm text-destructive">{{ errors.endTime }}</p>
           </div>
         </div>
 
@@ -190,11 +232,15 @@ const selectedDate = ref<DateValue>()
 const selectedTime = ref('')
 const selectedHour = ref('09')
 const selectedMinute = ref('00')
+const selectedEndTime = ref('')
+const selectedEndHour = ref('10')
+const selectedEndMinute = ref('00')
 const isLoading = ref(false)
 const errors = ref({
   title: '',
   date: '',
   time: '',
+  endTime: '',
 })
 
 // Set default time to next hour + 5 minutes
@@ -213,21 +259,32 @@ const setDefaultTime = () => {
   selectedHour.value = hours
   selectedMinute.value = roundedMinute
   selectedTime.value = `${hours}:${roundedMinute}`
+  
+  
+  const endHour = (parseInt(hours) + 1) % 24
+  selectedEndHour.value = String(endHour).padStart(2, '0')
+  selectedEndMinute.value = roundedMinute
+  selectedEndTime.value = `${selectedEndHour.value}:${roundedMinute}`
 }
 
-// Generate hours and minutes arrays
+
 const hours = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'))
 const minutes = ['00', '15', '30', '45']
 
-// Update time when hour/minute changes
+
 const updateTime = () => {
   selectedTime.value = `${selectedHour.value}:${selectedMinute.value}`
 }
 
-// Initialize default time on mount
+
+const updateEndTime = () => {
+  selectedEndTime.value = `${selectedEndHour.value}:${selectedEndMinute.value}`
+}
+
+
 setDefaultTime()
 
-// Reset form when modal opens
+
 watch(() => props.isOpen, (isOpen) => {
   if (isOpen) {
     resetForm()
@@ -235,7 +292,7 @@ watch(() => props.isOpen, (isOpen) => {
 })
 
 const validateForm = (): boolean => {
-  errors.value = { title: '', date: '', time: '' }
+  errors.value = { title: '', date: '', time: '', endTime: '' }
   let isValid = true
 
   // Validate title
@@ -259,6 +316,12 @@ const validateForm = (): boolean => {
     isValid = false
   }
 
+  // Validate end time
+  if (!selectedEndTime.value) {
+    errors.value.endTime = 'End time is required'
+    isValid = false
+  }
+
   // Validate datetime is at least 5 minutes from now
   if (selectedDate.value && selectedTime.value) {
     const [hours, minutes] = selectedTime.value.split(':').map(Number)
@@ -274,6 +337,23 @@ const validateForm = (): boolean => {
     }
   }
 
+  // Validate end time is after start time
+  if (selectedDate.value && selectedTime.value && selectedEndTime.value) {
+    const [startHours, startMinutes] = selectedTime.value.split(':').map(Number)
+    const [endHours, endMinutes] = selectedEndTime.value.split(':').map(Number)
+    
+    const startDateTime = selectedDate.value.toDate(getLocalTimeZone())
+    startDateTime.setHours(startHours, startMinutes, 0, 0)
+    
+    const endDateTime = selectedDate.value.toDate(getLocalTimeZone())
+    endDateTime.setHours(endHours, endMinutes, 0, 0)
+    
+    if (endDateTime <= startDateTime) {
+      errors.value.endTime = 'End time must be after start time'
+      isValid = false
+    }
+  }
+
   return isValid
 }
 
@@ -283,14 +363,20 @@ const handleSubmit = async () => {
   isLoading.value = true
 
   try {
-    const [hours, minutes] = selectedTime.value.split(':').map(Number)
-    const dateTime = selectedDate.value!.toDate(getLocalTimeZone())
-    dateTime.setHours(hours, minutes, 0, 0)
+    const [startHours, startMinutes] = selectedTime.value.split(':').map(Number)
+    const [endHours, endMinutes] = selectedEndTime.value.split(':').map(Number)
+    
+    const startDateTime = selectedDate.value!.toDate(getLocalTimeZone())
+    startDateTime.setHours(startHours, startMinutes, 0, 0)
+    
+    const endDateTime = selectedDate.value!.toDate(getLocalTimeZone())
+    endDateTime.setHours(endHours, endMinutes, 0, 0)
 
     await meetingStore.createMeeting({
       title: formData.value.title.trim(),
       description: formData.value.description.trim(),
-      startTime: dateTime as any,
+      startTime: startDateTime as any,
+      endTime: endDateTime as any,
     })
 
     // Success! Reset form, emit success, then close
@@ -312,7 +398,7 @@ const resetForm = () => {
   }
   selectedDate.value = undefined
   setDefaultTime()
-  errors.value = { title: '', date: '', time: '' }
+  errors.value = { title: '', date: '', time: '', endTime: '' }
 }
 
 const closeModal = () => {
