@@ -259,8 +259,8 @@ const setDefaultTime = () => {
   selectedHour.value = hours
   selectedMinute.value = roundedMinute
   selectedTime.value = `${hours}:${roundedMinute}`
-  
-  
+
+
   const endHour = (parseInt(hours) + 1) % 24
   selectedEndHour.value = String(endHour).padStart(2, '0')
   selectedEndMinute.value = roundedMinute
@@ -295,7 +295,6 @@ const validateForm = (): boolean => {
   errors.value = { title: '', date: '', time: '', endTime: '' }
   let isValid = true
 
-  // Validate title
   if (!formData.value.title.trim()) {
     errors.value.title = 'Title is required'
     isValid = false
@@ -304,50 +303,31 @@ const validateForm = (): boolean => {
     isValid = false
   }
 
-  // Validate date
   if (!selectedDate.value) {
     errors.value.date = 'Date is required'
     isValid = false
   }
 
-  // Validate time
   if (!selectedTime.value) {
     errors.value.time = 'Time is required'
     isValid = false
   }
 
-  // Validate end time
   if (!selectedEndTime.value) {
     errors.value.endTime = 'End time is required'
     isValid = false
   }
 
-  // Validate datetime is at least 5 minutes from now
-  if (selectedDate.value && selectedTime.value) {
-    const [hours, minutes] = selectedTime.value.split(':').map(Number)
-    const dateTime = selectedDate.value.toDate(getLocalTimeZone())
-    dateTime.setHours(hours, minutes, 0, 0)
-
-    const now = new Date()
-    const minTime = new Date(now.getTime() + 5 * 60 * 1000)
-
-    if (dateTime < minTime) {
-      errors.value.time = 'Meeting must be scheduled at least 5 minutes from now'
-      isValid = false
-    }
-  }
-
-  // Validate end time is after start time
   if (selectedDate.value && selectedTime.value && selectedEndTime.value) {
     const [startHours, startMinutes] = selectedTime.value.split(':').map(Number)
     const [endHours, endMinutes] = selectedEndTime.value.split(':').map(Number)
-    
+
     const startDateTime = selectedDate.value.toDate(getLocalTimeZone())
     startDateTime.setHours(startHours, startMinutes, 0, 0)
-    
+
     const endDateTime = selectedDate.value.toDate(getLocalTimeZone())
     endDateTime.setHours(endHours, endMinutes, 0, 0)
-    
+
     if (endDateTime <= startDateTime) {
       errors.value.endTime = 'End time must be after start time'
       isValid = false
@@ -365,10 +345,10 @@ const handleSubmit = async () => {
   try {
     const [startHours, startMinutes] = selectedTime.value.split(':').map(Number)
     const [endHours, endMinutes] = selectedEndTime.value.split(':').map(Number)
-    
+
     const startDateTime = selectedDate.value!.toDate(getLocalTimeZone())
     startDateTime.setHours(startHours, startMinutes, 0, 0)
-    
+
     const endDateTime = selectedDate.value!.toDate(getLocalTimeZone())
     endDateTime.setHours(endHours, endMinutes, 0, 0)
 
