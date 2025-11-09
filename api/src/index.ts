@@ -11,6 +11,7 @@ import { errorHandler } from './middleware/errorHandler';
 import { SocketService } from './services/socketService';
 import { NotificationService } from './services/notificationService';
 import notificationRoutes from './routes/notificationRoutes';
+import { startMeetingStatusCron } from './services/meetingStatusCron';
 
 const app = express();
 const port = 3000;
@@ -40,5 +41,5 @@ app.use('/api/notifications', notificationRoutes);
 app.use(errorHandler);
 
 httpServer.listen(port, () => {
-
+  startMeetingStatusCron();
 });
