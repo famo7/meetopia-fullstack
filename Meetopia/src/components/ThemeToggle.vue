@@ -4,16 +4,11 @@ import { ref, onMounted, watch } from 'vue'
 const isDark = ref(false)
 
 onMounted(() => {
-  const savedTheme = localStorage.getItem('theme')
-  const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-
-  if (savedTheme) {
-    isDark.value = savedTheme === 'dark'
-  } else {
-    isDark.value = systemPrefersDark
+  isDark.value = document.documentElement.classList.contains('dark')
+  
+  if (!localStorage.getItem('theme')) {
+    localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
   }
-
-  document.documentElement.classList.toggle('dark', isDark.value)
 })
 
 watch(isDark, (newValue) => {
@@ -52,7 +47,6 @@ const toggleTheme = () => {
         </svg>
       </div>
 
-      <!-- Subtle indicator dots -->
       <div class="absolute left-2 h-1.5 w-1.5 rounded-full transition-opacity duration-300"
         :class="isDark ? 'bg-slate-400 opacity-30' : 'bg-amber-400 opacity-60'"></div>
       <div class="absolute right-2 h-1.5 w-1.5 rounded-full transition-opacity duration-300"
