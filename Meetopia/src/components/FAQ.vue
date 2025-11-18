@@ -67,16 +67,16 @@ const faqItems = [
     answer: "Absolutely. Your notes and action items are encrypted and private by default. We never share or sell your data. You can read our detailed Privacy Policy for more information."
   },
   {
-    question: "What's the difference between the Free and Pro plan?",
-    answer: "The Free plan is perfect for trying Meetopia with 1 active meeting and up to 5 participants. The Pro plan unlocks unlimited meetings, 25 participants per meeting, and powerful features like assigning action items with priorities & deadlines and your personal action item dashboard."
+    question: "What is the Meetopia Beta Program?",
+    answer: "The Meetopia Beta Program is our exclusive testing community where early adopters get free access to all features including unlimited meetings, up to 25 participants, action item management, and priority support. Beta testers help shape the future of Meetopia by providing valuable feedback."
   },
   {
-    question: "How do I cancel my subscription?",
-    answer: "You can cancel your Pro plan at any time, instantly, right from your account settings. No hidden fees, no run-around."
+    question: "How long does the beta program last?",
+    answer: "The beta program will continue until we officially launch the platform. All beta testers will be notified in advance before any pricing changes take effect, and will receive special benefits as early supporters."
   },
   {
-    question: "What happens to my data if I cancel?",
-    answer: "All your data remains yours. If you cancel, you can still access and export your meeting notes and action items. We don't hold your data hostage."
+    question: "What happens to my data when the beta ends?",
+    answer: "All your data remains yours. When the beta ends, you'll have the option to continue with a paid plan or export your meeting notes and action items. We don't hold your data hostage."
   }
 ]
 

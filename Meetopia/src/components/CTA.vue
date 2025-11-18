@@ -22,7 +22,7 @@
         <div class="flex justify-center items-center mb-12">
           <Button size="lg"
             class="px-8 py-4 text-base font-semibold bg-primary hover:bg-primary/90 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
-            Get Started for Free
+            Join Beta Program
             <ArrowRight class="ml-2 h-5 w-5" />
           </Button>
         </div>
@@ -33,7 +33,7 @@
             <div class="flex items-center justify-center w-8 h-8 bg-green-100 rounded-full dark:bg-green-900/20">
               <Check class="h-4 w-4 text-green-600 dark:text-green-400" />
             </div>
-            <span>Free to start</span>
+            <span>Beta access</span>
           </div>
           <div class="flex items-center justify-center gap-3">
             <div class="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full dark:bg-blue-900/20">

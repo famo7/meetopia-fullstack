@@ -46,7 +46,7 @@
               </button>
               <button @click="scrollToSectionMobile('pricing')"
                 class="flex items-center px-4 py-3 text-base font-medium text-foreground hover:bg-accent hover:text-accent-foreground rounded-lg transition-colors text-left w-full justify-start cursor-pointer">
-                Pricing
+                Beta
               </button>
               <button @click="scrollToSectionMobile('about')"
                 class="flex items-center px-4 py-3 text-base font-medium text-foreground hover:bg-accent hover:text-accent-foreground rounded-lg transition-colors text-left w-full justify-start cursor-pointer">
@@ -74,7 +74,7 @@
         </button>
         <button @click="scrollToSection('pricing')"
           class="text-sm font-medium text-muted-foreground hover:text-primary transition-colors px-3 py-2 rounded-md hover:bg-accent/50 cursor-pointer">
-          Pricing
+          Beta
         </button>
         <button @click="scrollToSection('about')"
           class="text-sm font-medium text-muted-foreground hover:text-primary transition-colors px-3 py-2 rounded-md hover:bg-accent/50 cursor-pointer">

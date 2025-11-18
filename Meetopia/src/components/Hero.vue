@@ -1,7 +1,6 @@
 <template>
   <div class="bg-background">
     <div class="relative isolate px-4 sm:px-6 pt-14 lg:px-8">
-      <!-- Background gradients -->
       <div aria-hidden="true"
         class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
         <div
@@ -21,7 +20,6 @@
           </div>
         </div>
 
-        <!-- Main content -->
         <div class="text-center px-4 sm:px-0">
 
           <h1 class="scroll-m-20 text-3xl sm:text-4xl font-extrabold tracking-tight lg:text-5xl">
@@ -37,7 +35,7 @@
 
           <div class="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-x-6">
             <Button size="lg" class="w-full sm:w-auto rounded-md px-6 py-3 text-sm font-semibold shadow-sm">
-              Get Started
+              Join Beta Program
             </Button>
 
             <span variant="link" class="text-sm/6 font-semibold hover:cursor-pointer">
@@ -48,7 +46,6 @@
         </div>
       </div>
 
-      <!-- Bottom background gradient -->
       <div aria-hidden="true"
         class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]">
         <div
