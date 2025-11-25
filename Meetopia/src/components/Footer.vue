@@ -2,10 +2,9 @@
   <footer class="bg-muted/30 border-t border-border/50">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
-        <!-- Logo and Tagline -->
         <div class="lg:col-span-1">
-          <div class="flex items-center mb-4">
-            <span class="text-xl font-bold text-foreground">Meetopia</span>
+          <div class="flex items-center mb-4 space-x-2">
+            <img :src="logo" alt="Meetopia Logo" class="h-8 w-auto" />
           </div>
           <p class="text-sm text-muted-foreground leading-relaxed">
             Better meetings, fewer headaches. Turn discussion into action.
@@ -110,4 +109,5 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button'
 import { Twitter, Github, Linkedin } from 'lucide-vue-next'
+import logo from '@/assets/logo.svg'
 </script>

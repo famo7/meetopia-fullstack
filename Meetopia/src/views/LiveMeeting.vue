@@ -432,7 +432,9 @@ const initAgora = async () => {
             playerDiv.className = 'relative flex-1 min-w-[400px] min-h-[300px] bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl overflow-hidden shadow-2xl border border-gray-700/50'
             const nameLabel = document.createElement('div')
             nameLabel.className = 'absolute top-4 left-4 bg-black/60 backdrop-blur-sm px-4 py-2 rounded-lg text-sm font-medium text-white shadow-lg z-10'
-            nameLabel.textContent = `User ${user.uid}`
+            nameLabel.id = `name-label-${user.uid}`
+            const connectedUser = connectedUsers.value.find(u => u.userId === user.uid)
+            nameLabel.textContent = connectedUser?.userName || `User ${user.uid}`
             playerDiv.appendChild(nameLabel)
             remoteContainer.appendChild(playerDiv)
           }
@@ -450,7 +452,9 @@ const initAgora = async () => {
       if (mediaType === 'video') {
         const playerDiv = document.getElementById(`player-${user.uid}`)
         if (playerDiv) {
-          showCameraOffOverlay(`player-${user.uid}`, `User ${user.uid}`)
+          const connectedUser = connectedUsers.value.find(u => u.userId === user.uid)
+          const userName = connectedUser?.userName || `User ${user.uid}`
+          showCameraOffOverlay(`player-${user.uid}`, userName)
         }
       }
     })

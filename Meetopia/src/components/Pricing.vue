@@ -1,63 +1,57 @@
 <template>
-  <section id="pricing" class="py-16 sm:py-24 lg:py-32 bg-muted/30">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+  <section id="pricing" class="py-24 bg-background">
+    <div class="container mx-auto px-6">
       <div class="max-w-5xl mx-auto">
         <!-- Section Header -->
-        <div class="text-center mb-12 sm:mb-16">
-          <Badge variant="outline"
-            class="mb-4 sm:mb-6 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold tracking-wide bg-primary/5 text-primary border-primary/20 hover:bg-primary/10 transition-colors">
+        <div class="text-center mb-16">
+          <Badge variant="outline" class="mb-6 px-4 py-2 rounded-full text-sm font-medium tracking-wide bg-primary/5 text-primary border-primary/20">
             Beta Program
           </Badge>
-          <h2
-            class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 sm:mb-4 tracking-tight px-4 sm:px-0">
+          <h2 class="text-4xl font-bold text-foreground mb-4 tracking-tight">
             Join our Beta Program
           </h2>
-          <p class="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4 sm:px-0">
+          <p class="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Be part of our exclusive beta testing community and help shape the future of Meetopia.
-
           </p>
         </div>
 
         <!-- Beta Program Card -->
         <div class="max-w-2xl mx-auto">
-          <Card class="relative border-2 border-primary shadow-lg hover:shadow-xl transition-all duration-300">
+          <Card class="relative border-2 border-primary/50 bg-card/50 backdrop-blur-sm hover:bg-card/80 transition-all duration-300">
             <!-- Beta Badge -->
-            <div class="absolute -top-3 sm:-top-4 left-1/2 transform -translate-x-1/2">
-              <Badge
-                class="px-3 sm:px-4 py-1.5 sm:py-2 bg-primary text-primary-foreground font-semibold text-xs sm:text-sm">
+            <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+              <Badge class="px-4 py-2 bg-primary text-primary-foreground font-semibold text-sm">
                 Beta Program
               </Badge>
             </div>
 
-            <CardContent class="p-6 sm:p-8 pt-10 sm:pt-12">
-              <div class="text-center mb-6 sm:mb-8">
-                <h3 class="text-lg sm:text-xl font-bold text-foreground mb-2">Beta Tester</h3>
-                <p class="text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-6">For early adopters and feedback providers</p>
+            <CardContent class="p-8 pt-12">
+              <div class="text-center mb-8">
+                <h3 class="text-xl font-semibold text-foreground mb-2">Beta Tester</h3>
+                <p class="text-sm text-muted-foreground mb-6">For early adopters and feedback providers</p>
                 <div class="flex items-baseline justify-center">
-                  <span class="text-3xl sm:text-4xl font-bold text-foreground">Free</span>
-                  <span class="text-xs sm:text-sm text-muted-foreground ml-2">During Beta</span>
+                  <span class="text-4xl font-bold text-foreground">Free</span>
+                  <span class="text-sm text-muted-foreground ml-2">During Beta</span>
                 </div>
               </div>
 
-              <Button class="w-full mb-6 sm:mb-8 bg-primary hover:bg-primary/90 text-sm sm:text-base">
+              <Button class="w-full mb-8 bg-primary hover:bg-primary/90 text-base">
                 Join Beta Program
               </Button>
 
-              <div class="mb-4 sm:mb-6">
-                <p class="text-xs sm:text-sm font-medium text-foreground mb-3 sm:mb-4">Beta Features:</p>
+              <div class="mb-6">
+                <p class="text-sm font-medium text-foreground mb-4">Beta Features:</p>
               </div>
 
-              <ul class="space-y-3 sm:space-y-4">
+              <ul class="space-y-4">
                 <li v-for="feature in betaFeatures" :key="feature" class="flex items-start">
-                  <Check class="w-4 h-4 sm:w-5 sm:h-5 text-primary mt-0.5 mr-2 sm:mr-3 flex-shrink-0" />
-                  <span class="text-xs sm:text-sm text-muted-foreground">{{ feature }}</span>
+                  <Check class="w-5 h-5 text-primary mt-0.5 mr-3 flex-shrink-0" />
+                  <span class="text-sm text-muted-foreground">{{ feature }}</span>
                 </li>
               </ul>
             </CardContent>
           </Card>
         </div>
-
-
       </div>
     </div>
   </section>
@@ -84,14 +78,4 @@ const betaFeatures = [
 ]
 </script>
 
-<style scoped>
-.scale-105 {
-  transform: scale(1.05);
-}
-
-@media (max-width: 1024px) {
-  .scale-105 {
-    transform: none;
-  }
-}
-</style>
+<style scoped></style>

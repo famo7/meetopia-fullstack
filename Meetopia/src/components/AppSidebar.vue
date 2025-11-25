@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import {
@@ -13,11 +12,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuAction,
-  SidebarProvider,
-  SidebarTrigger,
   SidebarSeparator,
 } from '@/components/ui/sidebar'
 import { LayoutDashboard, Calendar, CheckCircle2, Bell, User, LogOut, Home, Settings } from 'lucide-vue-next'
+import logo from '@/assets/logo.svg'
 
 const route = useRoute()
 const router = useRouter()
@@ -67,7 +65,7 @@ const handleLogout = async () => {
             <router-link to="/dashboard" class="flex items-center gap-3 px-2 py-3">
               <div
                 class="flex aspect-square size-10 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-lg shadow-primary/25">
-                <span class="font-bold text-lg">M</span>
+                <img :src="logo" alt="Meetopia Logo" class="h-6 w-auto" />
               </div>
               <div class="grid flex-1 text-left">
                 <span class="truncate font-bold text-lg tracking-tight">Meetopia</span>

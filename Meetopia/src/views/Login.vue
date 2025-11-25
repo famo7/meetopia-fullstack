@@ -4,9 +4,7 @@
     <Card class="w-full max-w-md shadow-xl">
       <CardHeader class="space-y-3 text-center">
         <div class="flex justify-center mb-2">
-          <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
-            <span class="text-primary-foreground font-bold text-xl">M</span>
-          </div>
+          <img :src="logo" alt="Meetopia Logo" class="h-12 w-auto" />
         </div>
         <CardTitle class="text-2xl font-bold">Welcome Back</CardTitle>
         <CardDescription>Sign in to your Meetopia account</CardDescription>
@@ -80,6 +78,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Eye, EyeOff } from 'lucide-vue-next'
+import logo from '@/assets/logo.svg'
 
 const authStore = useAuthStore()
 

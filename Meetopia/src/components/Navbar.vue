@@ -2,63 +2,53 @@
   <header
     class="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
     <nav class="container mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16" aria-label="Global">
-      <!-- Logo/Brand -->
+      <!-- Logo -->
       <div class="flex items-center">
-        <router-link to="/" class="flex items-center space-x-2">
-          <span class="sr-only">Meetopia</span>
-          <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <span class="text-primary-foreground font-bold text-sm">M</span>
-          </div>
-          <span class="text-xl sm:text-2xl font-bold text-primary">Meetopia</span>
+        <router-link to="/" class="flex items-center">
+          <img :src="logo" alt="Meetopia Logo" class="h-16 w-auto" />
         </router-link>
       </div>
 
-      <!-- Mobile menu button -->
+      <!-- Mobile Menu -->
       <div class="flex lg:hidden">
         <Sheet v-model:open="isSheetOpen">
           <SheetTrigger as-child>
-            <Button variant="ghost"
-              class=" h-12 w-12 sm:h-10 sm:w-10 p-0 text-foreground hover:bg-accent hover:text-accent-foreground rounded-md transition-colors">
+            <Button variant="ghost" size="icon" class="h-10 w-10">
               <span class="sr-only">Open main menu</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"
-                class="h-6 w-6 sm:h-5 sm:w-5">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"
+                class="h-5 w-5">
                 <path d="M3 12h18M3 6h18M3 18h18" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </Button>
           </SheetTrigger>
-          <SheetContent side="right"
-            class="w-[85vw] max-w-[320px] sm:max-w-[400px] bg-background border-l border-border/20 p-0 h-screen max-h-screen overflow-hidden flex flex-col">
+          <SheetContent side="right" class="w-[300px] bg-background border-l border-border/20 p-0">
             <!-- Header with Logo -->
-            <div class="flex items-center justify-between p-4 border-b border-border/20 flex-shrink-0">
-              <router-link to="/" class="flex items-center space-x-2" @click="isSheetOpen = false">
-                <div class="w-6 h-6 bg-primary rounded flex items-center justify-center">
-                  <span class="text-primary-foreground font-bold text-xs">M</span>
-                </div>
-                <span class="text-base font-bold text-primary">Meetopia</span>
+            <div class="flex items-center justify-between p-6 border-b border-border/20">
+              <router-link to="/" @click="isSheetOpen = false">
+                <img :src="logo" alt="Meetopia Logo" class="h-16 w-auto" />
               </router-link>
             </div>
 
             <!-- Navigation Links -->
-            <nav class="flex flex-col p-4 space-y-2 flex-1 overflow-y-auto">
+            <nav class="flex flex-col p-6 space-y-1">
               <button @click="scrollToSectionMobile('features')"
-                class="flex items-center px-4 py-3 text-base font-medium text-foreground hover:bg-accent hover:text-accent-foreground rounded-lg transition-colors text-left w-full justify-start cursor-pointer">
+                class="flex items-center px-4 py-3 text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground rounded-md transition-colors text-left w-full justify-start">
                 Features
               </button>
               <button @click="scrollToSectionMobile('pricing')"
-                class="flex items-center px-4 py-3 text-base font-medium text-foreground hover:bg-accent hover:text-accent-foreground rounded-lg transition-colors text-left w-full justify-start cursor-pointer">
+                class="flex items-center px-4 py-3 text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground rounded-md transition-colors text-left w-full justify-start">
                 Beta
               </button>
               <button @click="scrollToSectionMobile('about')"
-                class="flex items-center px-4 py-3 text-base font-medium text-foreground hover:bg-accent hover:text-accent-foreground rounded-lg transition-colors text-left w-full justify-start cursor-pointer">
+                class="flex items-center px-4 py-3 text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground rounded-md transition-colors text-left w-full justify-start">
                 About
               </button>
             </nav>
 
             <!-- Sign In Button -->
-            <div class="p-4 border-t border-border/20 flex-shrink-0">
-              <Button @click="navigateToRegister"
-                class="w-full h-11 text-base font-medium bg-primary hover:bg-primary/90 rounded-lg">
-                Sign In
+            <div class="p-6 border-t border-border/20">
+              <Button @click="navigateToRegister" class="w-full h-10 text-sm font-medium">
+                Sign Up
                 <MoveRight class="ml-2 h-4 w-4" />
               </Button>
             </div>
@@ -69,15 +59,15 @@
       <!-- Desktop Navigation -->
       <div class="hidden lg:flex lg:items-center lg:gap-x-8">
         <button @click="scrollToSection('features')"
-          class="text-sm font-medium text-muted-foreground hover:text-primary transition-colors px-3 py-2 rounded-md hover:bg-accent/50 cursor-pointer">
+          class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md hover:bg-accent/50">
           Features
         </button>
         <button @click="scrollToSection('pricing')"
-          class="text-sm font-medium text-muted-foreground hover:text-primary transition-colors px-3 py-2 rounded-md hover:bg-accent/50 cursor-pointer">
+          class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md hover:bg-accent/50">
           Beta
         </button>
         <button @click="scrollToSection('about')"
-          class="text-sm font-medium text-muted-foreground hover:text-primary transition-colors px-3 py-2 rounded-md hover:bg-accent/50 cursor-pointer">
+          class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md hover:bg-accent/50">
           About
         </button>
       </div>
@@ -85,7 +75,7 @@
       <!-- Desktop Sign In -->
       <div class="hidden lg:flex">
         <Button @click="navigateToRegister" variant="ghost" size="sm" class="text-sm font-medium">
-          Sign In
+          Sign Up
           <MoveRight class="ml-2 h-4 w-4" />
         </Button>
       </div>
@@ -102,40 +92,55 @@ import {
   SheetContent,
   SheetTrigger,
 } from '@/components/ui/sheet'
-import { MoveRight } from 'lucide-vue-next';
+import { MoveRight } from 'lucide-vue-next'
+import logo from '../assets/logo.svg'
 
 const router = useRouter()
 
 // Sheet state
 const isSheetOpen = ref(false)
 
-// Navigate to register
+// Navigate to login
 const navigateToRegister = () => {
   isSheetOpen.value = false
   router.push('/register')
 }
 
-// Smooth scroll to section function
 const scrollToSection = (sectionId: string) => {
-  const element = document.getElementById(sectionId)
-  if (element) {
-    const headerOffset = 80; // Account for sticky header
-    const elementPosition = element.getBoundingClientRect().top;
-    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+  if (router.currentRoute.value.path !== '/') {
+    router.push('/').then(() => {
+      setTimeout(() => {
+        const element = document.getElementById(sectionId)
+        if (element) {
+          const headerOffset = 80;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: 'smooth'
-    });
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }, 300)
+    })
+  } else {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
   }
 }
 
-// Mobile scroll function that closes the sheet
 const scrollToSectionMobile = (sectionId: string) => {
-  // Close the mobile sheet first
   isSheetOpen.value = false
 
-  // Wait a bit for the sheet to close, then scroll
   setTimeout(() => {
     scrollToSection(sectionId)
   }, 300)

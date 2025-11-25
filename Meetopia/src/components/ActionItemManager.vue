@@ -26,7 +26,8 @@
           <span class="hidden sm:inline">Add Item</span>
         </button>
         <button @click="toggleExpanded" class="p-2 hover:bg-accent rounded-lg transition-colors">
-          <ChevronDown class="h-4 w-4 text-muted-foreground transition-transform" :class="{ 'rotate-180': isExpanded }" />
+          <ChevronDown class="h-4 w-4 text-muted-foreground transition-transform"
+            :class="{ 'rotate-180': isExpanded }" />
         </button>
       </div>
     </div>
@@ -142,6 +143,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useActionItemStore } from '@/stores/actionItem'
 import { useParticipantStore } from '@/stores/participant'
 import { useAuthStore } from '@/stores/auth'
+import { useMeetingStore } from '@/stores/meeting'
 import UpdateActionItem from './UpdateActionItem.vue'
 import DeleteActionItem from './DeleteActionItem.vue'
 import ActionItemCreate from './ActionItemCreate.vue'
@@ -167,6 +169,7 @@ const props = defineProps<{ meetingId: number }>()
 const actionItemStore = useActionItemStore()
 const participantStore = useParticipantStore()
 const authStore = useAuthStore()
+const meetingStore = useMeetingStore()
 
 const isExpanded = ref(true)
 const showUpdateDialog = ref(false)
@@ -177,18 +180,38 @@ const itemToDelete = ref<ActionItem | null>(null)
 
 const actionItems = computed(() => actionItemStore.actionItems)
 const participants = computed(() => participantStore.participants)
+const meeting = computed(() => meetingStore.currentMeeting)
 
 const participantsWithCurrentUser = computed(() => {
-  if (!authStore.user) return participants.value
+  const allParticipants = [...participants.value]
 
-  return [
-    ...participantStore.participants,
-    {
-      user: authStore.user,
-      id: authStore.user.id,
-      meetingId: props.meetingId
-    } as Participant
-  ]
+  if (meeting.value?.creator) {
+    const creatorExists = allParticipants.some(p => p.user.id === meeting.value?.creator.id)
+    if (!creatorExists) {
+      allParticipants.push({
+        user: meeting.value.creator,
+        id: meeting.value.creator.id,
+        meetingId: props.meetingId
+      } as Participant)
+    }
+  }
+
+  if (authStore.user) {
+    const currentUserExists = allParticipants.some(p => p.user.id === authStore.user?.id)
+    if (!currentUserExists) {
+      allParticipants.push({
+        user: authStore.user,
+        id: authStore.user.id,
+        meetingId: props.meetingId
+      } as Participant)
+    }
+  }
+
+  const uniqueParticipants = allParticipants.filter((participant, index, self) =>
+    index === self.findIndex(p => p.user.id === participant.user.id)
+  )
+
+  return uniqueParticipants
 })
 
 const sortedActionItems = computed(() => {
@@ -218,7 +241,8 @@ const loadData = async () => {
   try {
     await Promise.all([
       actionItemStore.fetchActionItems(props.meetingId),
-      participantStore.fetchParticipants(props.meetingId)
+      participantStore.fetchParticipants(props.meetingId),
+      meetingStore.fetchMeetingById(props.meetingId)
     ])
   } catch (error) {
     console.error('Failed to load data:', error)

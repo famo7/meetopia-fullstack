@@ -1,25 +1,24 @@
 <template>
-  <section id="features" class="py-16 sm:py-24 lg:py-32 bg-muted/30">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+  <section id="features" class="py-24 bg-background">
+    <div class="container mx-auto px-6">
       <div class="max-w-5xl mx-auto">
-        <div class="text-center mb-12 sm:mb-16">
-          <p class="text-xs sm:text-sm font-semibold text-primary tracking-wide uppercase mb-3 sm:mb-4">Features</p>
-          <h2
-            class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground mb-3 sm:mb-4 tracking-tight px-4 sm:px-0">
+        <div class="text-center mb-16">
+          <Badge variant="outline" class="mb-6 px-4 py-2 rounded-full text-sm font-medium tracking-wide bg-primary/5 text-primary border-primary/20">
+            Features
+          </Badge>
+          <h2 class="text-4xl font-bold text-foreground mb-4 tracking-tight">
             Meet smarter, not harder
           </h2>
-          <p
-            class="text-base sm:text-lg text-muted-foreground max-w-xl sm:max-w-2xl mx-auto leading-relaxed px-4 sm:px-0">
+          <p class="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Turn discussion into action. End meeting fatigue with a platform designed for real results.
           </p>
         </div>
 
         <!-- Features Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 px-2 sm:px-0">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <FeatureCard v-for="feature in features" :key="feature.title" :title="feature.title"
             :description="feature.description" :link-text="feature.linkText" :icon="feature.icon" />
         </div>
-
       </div>
     </div>
   </section>
@@ -27,6 +26,7 @@
 
 <script setup lang="ts">
 import FeatureCard from './FeatureCard.vue'
+import { Badge } from '@/components/ui/badge'
 import {
   Users,
   CheckSquare,
@@ -34,7 +34,6 @@ import {
 } from 'lucide-vue-next'
 
 const features = [
-
   {
     title: 'Collaborate in real-time',
     description: "Edit meeting notes together in real-time. See teammates' cursors and changes live, so everyone is always on the same page.",

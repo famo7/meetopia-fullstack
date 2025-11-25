@@ -28,3 +28,6 @@ dist-ssr
 .roo/
 AGENTS.md
 CLAUDE.md
+
+# Design system reference
+DESIGN_SYSTEM.md
