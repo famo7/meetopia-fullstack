@@ -31,6 +31,19 @@ const routes = [
     component: Login,
     meta: { requiresGuest: true },
   },
+  ,
+  {
+    path: '/terms',
+    name: 'terms',
+    component: () => import('@/views/TermsOfServiceView.vue'),
+    meta: { title: 'Terms of Service' }
+  },
+  {
+    path: '/privacy-policy',
+    name: 'privacy-policy',
+    component: () => import('@/views/PrivacyPolicyView.vue'),
+    meta: { title: 'Privacy Policy' }
+  },
   {
     path: "/dashboard",
     component: Dashboard,
@@ -70,7 +83,7 @@ const routes = [
         path: "profile",
         name: "profile",
         component: Profile,
-      },
+      }
     ],
   },
 ]

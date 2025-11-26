@@ -68,14 +68,14 @@
           <h3 class="text-sm font-semibold text-foreground mb-4">Legal</h3>
           <ul class="space-y-3 mb-6">
             <li>
-              <Button variant="link"
-                class="h-auto p-0 text-sm text-muted-foreground hover:text-foreground justify-start">
+              <RouterLink to="/terms"
+                class="text-sm text-muted-foreground hover:text-foreground transition-colors duration-150">
                 Terms of Service
-              </Button>
+              </RouterLink>
             </li>
             <li>
               <RouterLink to="/privacy-policy"
-                class="text-sm text-muted-foreground hover:text-foreground hover:underline">
+                class="text-sm text-muted-foreground hover:text-foreground transition-colors duration-150">
                 Privacy Policy
               </RouterLink>
             </li>
@@ -98,9 +98,23 @@
       </div>
 
       <!-- Bottom Bar -->
-      <div class="border-t border-border/50 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+      <div class="border-t border-border/50 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
         <p class="text-sm text-muted-foreground">© {{ new Date().getFullYear() }} Meetopia. All rights reserved.</p>
-        <p class="text-sm text-muted-foreground mt-2 md:mt-0">Made with <span class="text-red-500">♥</span> by Said</p>
+        <nav class="flex items-center gap-6">
+          <RouterLink to="/privacy-policy"
+            class="text-sm text-muted-foreground hover:text-foreground transition-colors duration-150">
+            Privacy Policy
+          </RouterLink>
+          <RouterLink to="/terms"
+            class="text-sm text-muted-foreground hover:text-foreground transition-colors duration-150">
+            Terms of Service
+          </RouterLink>
+          <button type="button"
+            class="text-sm text-muted-foreground hover:text-foreground transition-colors duration-150"
+            @click="openCookieSettings">
+            Cookie Settings
+          </button>
+        </nav>
       </div>
     </div>
   </footer>
@@ -110,4 +124,10 @@
 import { Button } from '@/components/ui/button'
 import { Twitter, Github, Linkedin } from 'lucide-vue-next'
 import logo from '@/assets/logo.svg'
+
+const openCookieSettings = () => {
+  // Emit event or open cookie consent modal
+  // Integration point for cookie consent manager (e.g., OneTrust, Cookiebot, or custom)
+  window.dispatchEvent(new CustomEvent('open-cookie-settings'))
+}
 </script>

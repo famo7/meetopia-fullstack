@@ -1,37 +1,44 @@
 <template>
   <section class="py-24 bg-background">
-    <div class="container mx-auto px-6">
-      <div class="max-w-5xl mx-auto">
-        <div class="text-center mb-16">
-          <Badge variant="outline" class="mb-6 px-4 py-2 rounded-full text-sm font-medium tracking-wide bg-primary/5 text-primary border-primary/20">
-            How It Works
-          </Badge>
-          <h2 class="text-4xl font-bold text-foreground mb-4 tracking-tight">
-            Get Started in 3 Easy Steps
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-6xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center mb-20">
+          <h2 class="text-4xl font-semibold text-foreground mb-4 tracking-tight">
+            Get started in <span class="text-primary">3 easy steps</span>
           </h2>
-          <p class="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Go from chaotic discussions to clear outcomes in minutes. Meetopia is designed for focus, follow-through, and finally, productive meetings.
+          <p class="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            Go from chaotic discussions to clear outcomes in minutes.
           </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <Card v-for="(step, index) in steps" :key="step.title" 
-            class="relative border border-border/40 bg-card/50 backdrop-blur-sm hover:bg-card/80 transition-all duration-300"
-            :class="{ 'ring-2 ring-primary/20 border-primary/30': index === 1 }">
-            <CardContent class="p-8 text-center">
+        <!-- Steps -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+          <div v-for="(step, index) in steps" :key="step.title" class="relative">
+            <!-- Step card -->
+            <div class="text-left">
+              <!-- Number badge -->
               <div class="mb-6">
-                <div class="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mb-4">
-                  <component :is="step.icon" class="w-8 h-8 text-primary" />
-                </div>
-                <div class="inline-flex items-center justify-center w-8 h-8 bg-primary text-primary-foreground rounded-full text-sm font-bold mb-4">
+                <span
+                  class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary text-sm font-semibold">
                   {{ index + 1 }}
-                </div>
+                </span>
               </div>
 
+              <!-- Content -->
               <h3 class="text-xl font-semibold text-foreground mb-3">{{ step.title }}</h3>
-              <p class="text-muted-foreground leading-relaxed">{{ step.description }}</p>
-            </CardContent>
-          </Card>
+              <p class="text-sm text-muted-foreground leading-relaxed">{{ step.description }}</p>
+            </div>
+
+            <!-- Arrow connector (hidden on mobile and last item) -->
+            <div v-if="index < steps.length - 1" class="hidden md:block absolute top-5 -right-6 lg:-right-8"
+              aria-hidden="true">
+              <svg class="w-4 h-4 text-muted-foreground/50" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -39,30 +46,18 @@
 </template>
 
 <script setup lang="ts">
-import {
-  Calendar,
-  MessageSquare,
-  CheckCircle as CheckIcon
-} from 'lucide-vue-next'
-import Badge from './ui/badge/Badge.vue';
-import Card from './ui/card/Card.vue';
-import CardContent from './ui/card/CardContent.vue';
-
 const steps = [
   {
     title: 'Schedule & Invite',
-    description: 'Create your meeting and get a unique link. Send it to your team—that\'s the only setup needed.',
-    icon: Calendar
+    description: 'Create a meeting and invite your team directly. Set the date, time, and agenda—you\'re ready to go.'
   },
   {
     title: 'Meet & Collaborate',
-    description: 'Build your agenda and notes together in real-time. See edits live, so everyone contributes and stays perfectly aligned.',
-    icon: MessageSquare
+    description: 'Build your agenda and notes together in real-time. See edits live, so everyone stays aligned.'
   },
   {
     title: 'Follow Through',
-    description: 'Turn decisions into assigned action items with clear deadlines. Meetopia tracks it all and sends automatic reminders, so work actually gets done.',
-    icon: CheckIcon
+    description: 'Turn decisions into assigned action items with clear deadlines. Automatic reminders ensure work gets done.'
   }
 ]
 </script>

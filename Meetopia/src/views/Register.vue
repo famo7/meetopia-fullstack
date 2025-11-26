@@ -65,8 +65,20 @@
             </p>
           </div>
 
+          <!-- Terms and Privacy Policy Checkbox -->
+          <div class="flex items-start space-x-2">
+            <Checkbox id="terms" v-model="acceptedTerms" :disabled="authStore.isLoading" />
+            <Label for="terms" class="text-sm font-normal leading-snug">
+              I agree to the
+              <router-link to="/terms" class="text-primary hover:underline">Terms of Service</router-link>
+              and
+              <router-link to="/privacy-policy" class="text-primary hover:underline">Privacy Policy</router-link>
+            </Label>
+          </div>
+
           <!-- Submit Button -->
-          <Button type="submit" class="w-full" :disabled="passwordMismatch || authStore.isLoading">
+          <Button type="submit" class="w-full"
+            :disabled="passwordMismatch || acceptedTerms !== true || authStore.isLoading">
             {{ authStore.isLoading ? 'Creating Account...' : 'Create Account' }}
           </Button>
         </form>
@@ -98,6 +110,7 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Checkbox } from '@/components/ui/checkbox'
 import { Eye, EyeOff } from 'lucide-vue-next'
 import logo from '@/assets/logo.svg'
 
@@ -112,6 +125,7 @@ const formData = ref({
 
 const showPassword = ref(false)
 const showConfirmPassword = ref(false)
+const acceptedTerms = ref<boolean | 'indeterminate'>(false)
 
 const passwordMismatch = computed(() => {
   return formData.value.confirmPassword.length > 0 &&
@@ -119,7 +133,7 @@ const passwordMismatch = computed(() => {
 })
 
 const handleRegister = async () => {
-  if (passwordMismatch.value) return
+  if (passwordMismatch.value || acceptedTerms.value !== true) return
 
   try {
     await authStore.register(

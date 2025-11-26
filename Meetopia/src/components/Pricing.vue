@@ -1,78 +1,70 @@
 <template>
-  <section id="pricing" class="py-24 bg-background">
-    <div class="container mx-auto px-6">
-      <div class="max-w-5xl mx-auto">
-        <!-- Section Header -->
-        <div class="text-center mb-16">
-          <Badge variant="outline" class="mb-6 px-4 py-2 rounded-full text-sm font-medium tracking-wide bg-primary/5 text-primary border-primary/20">
-            Beta Program
-          </Badge>
-          <h2 class="text-4xl font-bold text-foreground mb-4 tracking-tight">
-            Join our Beta Program
-          </h2>
-          <p class="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Be part of our exclusive beta testing community and help shape the future of Meetopia.
-          </p>
-        </div>
+  <section id="pricing" class="py-24 bg-muted/50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-6xl mx-auto">
+        <!-- Full width card -->
+        <Card class="border-border bg-card overflow-hidden">
+          <div class="grid grid-cols-1 lg:grid-cols-2">
+            <!-- Left: Content -->
+            <div class="p-8 lg:p-12">
+              <p class="text-sm font-medium text-primary mb-3">Beta Program</p>
+              <h2 class="text-3xl font-semibold text-foreground mb-4 tracking-tight">
+                Join our Beta Program
+              </h2>
+              <p class="text-muted-foreground mb-8 leading-relaxed">
+                Be part of our exclusive beta testing community and help shape the future of Meetopia.
+              </p>
 
-        <!-- Beta Program Card -->
-        <div class="max-w-2xl mx-auto">
-          <Card class="relative border-2 border-primary/50 bg-card/50 backdrop-blur-sm hover:bg-card/80 transition-all duration-300">
-            <!-- Beta Badge -->
-            <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
-              <Badge class="px-4 py-2 bg-primary text-primary-foreground font-semibold text-sm">
-                Beta Program
-              </Badge>
-            </div>
-
-            <CardContent class="p-8 pt-12">
-              <div class="text-center mb-8">
-                <h3 class="text-xl font-semibold text-foreground mb-2">Beta Tester</h3>
-                <p class="text-sm text-muted-foreground mb-6">For early adopters and feedback providers</p>
-                <div class="flex items-baseline justify-center">
-                  <span class="text-4xl font-bold text-foreground">Free</span>
-                  <span class="text-sm text-muted-foreground ml-2">During Beta</span>
+              <!-- Features grid -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+                <div v-for="feature in betaFeatures" :key="feature" class="flex items-center">
+                  <Check class="w-4 h-4 text-primary mr-2 flex-shrink-0" />
+                  <span class="text-sm text-muted-foreground">{{ feature }}</span>
                 </div>
               </div>
 
-              <Button class="w-full mb-8 bg-primary hover:bg-primary/90 text-base">
-                Join Beta Program
-              </Button>
-
-              <div class="mb-6">
-                <p class="text-sm font-medium text-foreground mb-4">Beta Features:</p>
+              <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <Button size="lg" as-child>
+                  <RouterLink to="/register">
+                    Join Beta Program
+                  </RouterLink>
+                </Button>
+                <p class="text-xs text-muted-foreground">
+                  No credit card required
+                </p>
               </div>
+            </div>
 
-              <ul class="space-y-4">
-                <li v-for="feature in betaFeatures" :key="feature" class="flex items-start">
-                  <Check class="w-5 h-5 text-primary mt-0.5 mr-3 flex-shrink-0" />
-                  <span class="text-sm text-muted-foreground">{{ feature }}</span>
-                </li>
-              </ul>
-            </CardContent>
-          </Card>
-        </div>
+            <!-- Right: Price highlight -->
+            <div class="bg-muted/30 p-8 lg:p-12 flex flex-col items-center justify-center text-center">
+              <p class="text-sm text-muted-foreground mb-2">During beta period</p>
+              <div class="flex items-baseline mb-4">
+                <span class="text-6xl font-semibold text-foreground">Free</span>
+              </div>
+              <p class="text-sm text-muted-foreground max-w-xs">
+                Get full access to all features while we're in beta. Help us improve and lock in early adopter benefits.
+              </p>
+            </div>
+          </div>
+        </Card>
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import { RouterLink } from 'vue-router'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import {
-  Check
-} from 'lucide-vue-next'
+import { Card } from '@/components/ui/card'
+import { Check } from 'lucide-vue-next'
 
-// Beta features
 const betaFeatures = [
   'Unlimited Active Meetings',
   'Real-time Collaborative Notes',
   'Create & View Action Items',
   'Assign Action Items & Set Due Dates',
   'Personal Action Item Dashboard',
-  'Up to 25 Participants per Meeting',
+  'Unlimited Participants',
   'Priority Support & Feedback Channel',
   'Early Access to New Features'
 ]
