@@ -1,56 +1,59 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
+import { Laptop2, Moon, SunMedium } from 'lucide-vue-next'
 
-const isDark = ref(false)
+type ThemeMode = 'system' | 'light' | 'dark'
+
+const mode = ref<ThemeMode>('system')
+let mediaQuery: MediaQueryList | null = null
+
+const applyTheme = (value: ThemeMode) => {
+  localStorage.setItem('theme', value)
+  const prefersDark = mediaQuery?.matches ?? false
+  const isDark = value === 'dark' || (value === 'system' && prefersDark)
+  document.documentElement.classList.toggle('dark', isDark)
+}
+
+const handleSystemChange = (event: MediaQueryListEvent) => {
+  if (mode.value === 'system') {
+    document.documentElement.classList.toggle('dark', event.matches)
+  }
+}
+
+const setMode = (value: ThemeMode) => {
+  mode.value = value
+  applyTheme(value)
+}
 
 onMounted(() => {
-  isDark.value = document.documentElement.classList.contains('dark')
-  
-  if (!localStorage.getItem('theme')) {
-    localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
-  }
+  mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+  const stored = (localStorage.getItem('theme') as ThemeMode | null) ?? 'system'
+  mode.value = stored
+  applyTheme(mode.value)
+  mediaQuery.addEventListener('change', handleSystemChange)
 })
 
-watch(isDark, (newValue) => {
-  localStorage.setItem('theme', newValue ? 'dark' : 'light')
-  document.documentElement.classList.toggle('dark', newValue)
+onUnmounted(() => {
+  mediaQuery?.removeEventListener('change', handleSystemChange)
 })
-
-const toggleTheme = () => {
-  isDark.value = !isDark.value
-}
 </script>
 
 <template>
-  <div class="flex items-center gap-3">
-    <span class="text-sm font-medium text-foreground">Theme</span>
-    <button @click="toggleTheme"
-      class="relative inline-flex h-9 w-16 items-center rounded-full transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
-      :class="isDark ? 'bg-slate-700' : 'bg-slate-200'" role="switch" :aria-checked="isDark" aria-label="Toggle theme">
-      <div class="absolute inset-0 rounded-full transition-opacity duration-300"
-        :class="isDark ? 'bg-gradient-to-r from-slate-600 to-slate-800' : 'bg-gradient-to-r from-amber-100 to-orange-100'">
-      </div>
-
-      <div
-        class="relative z-10 h-7 w-7 rounded-full bg-white shadow-lg transition-all duration-300 ease-in-out transform flex items-center justify-center"
-        :class="isDark ? 'translate-x-8' : 'translate-x-1'">
-        <svg v-if="!isDark" class="h-4 w-4 text-amber-500 transition-all duration-300" fill="none" stroke="currentColor"
-          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-        </svg>
-
-        <svg v-else class="h-4 w-4 text-slate-700 transition-all duration-300" fill="none" stroke="currentColor"
-          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-        </svg>
-      </div>
-
-      <div class="absolute left-2 h-1.5 w-1.5 rounded-full transition-opacity duration-300"
-        :class="isDark ? 'bg-slate-400 opacity-30' : 'bg-amber-400 opacity-60'"></div>
-      <div class="absolute right-2 h-1.5 w-1.5 rounded-full transition-opacity duration-300"
-        :class="isDark ? 'bg-slate-400 opacity-60' : 'bg-amber-400 opacity-30'"></div>
-    </button>
+  <div class="flex items-center gap-4" role="radiogroup" aria-label="Theme selection">
+    <div class="flex items-center gap-2 rounded-2xl border border-border/60 bg-muted/40 p-1 shadow-sm">
+      <button v-for="option in [
+          { value: 'system', icon: Laptop2, label: 'System' },
+          { value: 'light', icon: SunMedium, label: 'Light' },
+          { value: 'dark', icon: Moon, label: 'Dark' }
+        ]" :key="option.value" type="button" role="radio" :aria-checked="mode === option.value"
+        @click="setMode(option.value as ThemeMode)"
+        class="relative flex h-12 w-14 items-center justify-center rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        :class="mode === option.value
+          ? 'bg-background text-foreground shadow-sm'
+          : 'text-muted-foreground hover:text-foreground'">
+        <component :is="option.icon" class="h-5 w-5" aria-hidden="true" />
+        <span class="sr-only">{{ option.label }}</span>
+      </button>
+    </div>
   </div>
 </template>

@@ -4,22 +4,22 @@ import './style.css'
 import App from './App.vue'
 import router from './router'
 
-const savedTheme = localStorage.getItem('theme')
-const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+type ThemeMode = 'light' | 'dark' | 'system' | null
 
-function initializeTheme() {
-  if (savedTheme) {
-    document.documentElement.classList.toggle('dark', savedTheme === 'dark')
-  } else {
-    document.documentElement.classList.toggle('dark', systemPrefersDark)
-  }
+const systemMedia = window.matchMedia('(prefers-color-scheme: dark)')
+
+const applyTheme = (mode: ThemeMode) => {
+  const setting = mode ?? 'system'
+  const isDark = setting === 'dark' || (setting === 'system' && systemMedia.matches)
+  document.documentElement.classList.toggle('dark', isDark)
 }
 
-initializeTheme()
+applyTheme(localStorage.getItem('theme') as ThemeMode)
 
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-  if (!localStorage.getItem('theme')) {
-    document.documentElement.classList.toggle('dark', e.matches)
+systemMedia.addEventListener('change', (event) => {
+  const current = localStorage.getItem('theme') as ThemeMode
+  if (!current || current === 'system') {
+    document.documentElement.classList.toggle('dark', event.matches)
   }
 })
 
