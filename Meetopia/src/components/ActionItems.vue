@@ -89,7 +89,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useActionItemStore } from '@/stores/actionItem'
 import { Badge } from '@/components/ui/badge'

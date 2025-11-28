@@ -31,7 +31,6 @@ const routes = [
     component: Login,
     meta: { requiresGuest: true },
   },
-  ,
   {
     path: '/terms',
     name: 'terms',
