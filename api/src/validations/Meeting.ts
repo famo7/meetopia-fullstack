@@ -16,7 +16,7 @@ export const CreateMeetingSchema = z.object({
   // Parse start time
   const startTime = new Date(data.startTime);
   const endTime = new Date(data.endTime);
-  
+
   if (isNaN(startTime.getTime())) {
     ctx.addIssue({
       code: 'custom',
@@ -25,7 +25,7 @@ export const CreateMeetingSchema = z.object({
     });
     return;
   }
-  
+
   if (isNaN(endTime.getTime())) {
     ctx.addIssue({
       code: 'custom',
@@ -34,7 +34,7 @@ export const CreateMeetingSchema = z.object({
     });
     return;
   }
-  
+
   const now = new Date();
   const minTime = new Date(now.getTime() + 5 * 60 * 1000);
   if (startTime < minTime) {
@@ -44,7 +44,7 @@ export const CreateMeetingSchema = z.object({
       message: 'Meeting must be scheduled at least 5 minutes from now'
     });
   }
-  
+
   if (endTime <= startTime) {
     ctx.addIssue({
       code: 'custom',
