@@ -19,7 +19,7 @@ export const CreateMeetingSchema = z.object({
   
   if (isNaN(startTime.getTime())) {
     ctx.addIssue({
-      code: z.ZodIssueCode.invalid_date,
+      code: 'custom',
       path: ['startTime'],
       message: 'Invalid start time format'
     });
@@ -28,7 +28,7 @@ export const CreateMeetingSchema = z.object({
   
   if (isNaN(endTime.getTime())) {
     ctx.addIssue({
-      code: z.ZodIssueCode.invalid_date,
+      code: 'custom',
       path: ['endTime'],
       message: 'Invalid end time format'
     });
@@ -39,7 +39,7 @@ export const CreateMeetingSchema = z.object({
   const minTime = new Date(now.getTime() + 5 * 60 * 1000);
   if (startTime < minTime) {
     ctx.addIssue({
-      code: z.ZodIssueCode.custom,
+      code: 'custom',
       path: ['startTime'],
       message: 'Meeting must be scheduled at least 5 minutes from now'
     });
@@ -47,7 +47,7 @@ export const CreateMeetingSchema = z.object({
   
   if (endTime <= startTime) {
     ctx.addIssue({
-      code: z.ZodIssueCode.custom,
+      code: 'custom',
       path: ['endTime'],
       message: 'End time must be after start time'
     });
