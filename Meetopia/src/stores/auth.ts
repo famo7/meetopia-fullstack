@@ -73,7 +73,7 @@ export const useAuthStore = defineStore('auth', () => {
     error.value = null
     try {
       const response = await api.get('/auth/me')
-      user.value = response.data.user
+      user.value = response.data?.user ?? null
     } catch (err) {
       user.value = null
     } finally {

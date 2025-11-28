@@ -14,15 +14,21 @@ import notificationRoutes from './routes/notificationRoutes';
 import { startMeetingStatusCron } from './services/meetingStatusCron';
 
 const app = express();
-const port = 3000;
+const port = Number(process.env.PORT) || 3000;
 
 const httpServer = createServer(app);
 
 const socketService = new SocketService(httpServer);
 const notificationService = NotificationService.initialize(socketService);
 
+app.disable('etag');
+app.use((req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store');
+  next();
+});
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
   credentials: true
 }));
 
