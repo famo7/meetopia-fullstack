@@ -4,8 +4,11 @@
     <nav class="container mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16" aria-label="Global">
       <!-- Logo -->
       <div class="flex items-center">
-        <router-link to="/" class="flex items-center">
-          <img :src="logo" alt="Meetopia Logo" class="h-16 w-auto" />
+        <router-link to="/" class="flex items-center gap-3 transition duration-200 hover:opacity-85">
+          <img :src="logo" alt="Meetopia Logo" class="h-8 w-8" />
+          <span class="text-lg font-semibold text-foreground">
+            Meetopia
+          </span>
         </router-link>
       </div>
 
@@ -23,9 +26,12 @@
           </SheetTrigger>
           <SheetContent side="right" class="w-[300px] bg-background border-l border-border/20 p-0">
             <!-- Header with Logo -->
-            <div class="flex items-center justify-between p-6 border-b border-border/20">
-              <router-link to="/" @click="isSheetOpen = false">
-                <img :src="logo" alt="Meetopia Logo" class="h-16 w-auto" />
+            <div class="flex items-center justify-center p-6 border-b border-border/20">
+              <router-link to="/" @click="isSheetOpen = false" class="flex items-center gap-3">
+                <img :src="logo" alt="Meetopia Logo" class="h-8 w-8" />
+                <span class="text-lg font-semibold text-foreground">
+                  Meetopia
+                </span>
               </router-link>
             </div>
 

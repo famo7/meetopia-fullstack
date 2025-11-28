@@ -12,9 +12,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuAction,
-  SidebarSeparator,
 } from '@/components/ui/sidebar'
-import { LayoutDashboard, Calendar, CheckCircle2, Bell, User, LogOut, Home, Settings } from 'lucide-vue-next'
+import { LayoutDashboard, Calendar, CheckCircle2, Bell, User, LogOut } from 'lucide-vue-next'
 import logo from '@/assets/logo.svg'
 
 const route = useRoute()
@@ -57,35 +56,26 @@ const handleLogout = async () => {
 </script>
 
 <template>
-  <Sidebar variant="floating" class="border-r border-sidebar-border/50 bg-background/95 backdrop-blur-sm">
-    <SidebarHeader class="pb-4">
-      <SidebarMenu>
-        <SidebarMenuItem>
-          <SidebarMenuButton size="lg" as-child class="data-[active=true]:bg-transparent hover:bg-transparent">
-            <router-link to="/dashboard" class="flex items-center gap-3 px-2 py-3">
-              <div
-                class="flex aspect-square size-10 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-lg shadow-primary/25">
-                <img :src="logo" alt="Meetopia Logo" class="h-6 w-auto" />
-              </div>
-              <div class="grid flex-1 text-left">
-                <span class="truncate font-bold text-lg tracking-tight">Meetopia</span>
-                <span class="truncate text-xs text-muted-foreground">Meeting Management</span>
-              </div>
-            </router-link>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      </SidebarMenu>
+  <Sidebar class="border-r border-border/40 bg-background">
+    <SidebarHeader class="px-6 py-4">
+      <router-link to="/dashboard" class="flex items-center gap-3">
+        <img :src="logo" alt="Meetopia Logo" class="h-8 w-8" />
+        <span class="text-lg font-semibold text-foreground">
+          Meetopia
+        </span>
+      </router-link>
     </SidebarHeader>
-
-    <SidebarSeparator class="mx-2" />
 
     <SidebarContent class="px-3 py-4">
       <SidebarGroup>
+        <span class="px-3 mb-2 text-xs font-medium text-muted-foreground uppercase tracking-wide">
+          Menu
+        </span>
         <SidebarGroupContent class="space-y-1">
           <SidebarMenu>
             <SidebarMenuItem v-for="item in menuItems" :key="item.title">
-              <SidebarMenuButton as-child :is-active="isActive(item.url)" size="lg"
-                class="h-12 rounded-xl transition-all duration-200 data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:shadow-sm hover:bg-sidebar-accent/50">
+              <SidebarMenuButton as-child :is-active="isActive(item.url)"
+                class="h-11 rounded-lg transition-all duration-200 data-[active=true]:bg-accent data-[active=true]:text-accent-foreground hover:bg-accent/50">
                 <router-link :to="item.url" class="flex items-center gap-3 px-3">
                   <component :is="item.icon" class="size-5" />
                   <span class="font-medium">{{ item.title }}</span>
@@ -97,19 +87,16 @@ const handleLogout = async () => {
       </SidebarGroup>
     </SidebarContent>
 
-    <SidebarSeparator class="mx-2" />
-
-    <SidebarFooter class="px-3 py-4">
+    <SidebarFooter class="px-3 py-4 mt-auto">
       <SidebarMenu>
         <SidebarMenuItem>
-          <SidebarMenuButton asChild size="lg"
-            class="h-12 rounded-xl transition-all duration-200 hover:bg-sidebar-accent/50">
+          <SidebarMenuButton asChild class="h-11 rounded-lg transition-all duration-200 hover:bg-accent/50">
             <button @click="router.push('/dashboard/profile')" class="flex items-center gap-3 px-3 w-full">
-              <div class="flex aspect-square size-8 items-center justify-center rounded-xl bg-muted">
+              <div class="flex aspect-square size-8 items-center justify-center rounded-full bg-muted">
                 <User class="size-4" />
               </div>
               <div class="grid flex-1 text-left">
-                <span class="font-medium">{{ authStore.user?.name }}</span>
+                <span class="font-medium text-sm">{{ authStore.user?.name }}</span>
                 <span class="text-xs text-muted-foreground">Profile</span>
               </div>
             </button>
