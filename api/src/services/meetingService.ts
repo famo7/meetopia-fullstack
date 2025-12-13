@@ -1,5 +1,5 @@
 import prisma from '../lib/prisma';
-import { RtcTokenBuilder, RtcRole } from 'agora-access-token';
+import { RtcTokenBuilder } from 'agora-access-token';
 import { CreateMeetingRequest, UpdateMeetingRequest } from '../validations/Meeting';
 import {
   MEETING_INCLUDE,
@@ -129,7 +129,7 @@ export class MeetingService {
       const channelName = `meetopia_${meetingId}`;
 
       if (!appId) {
-        console.error('❌ AGORA_APP_ID is not set in environment variables');
+        console.error('AGORA_APP_ID is not set in environment variables');
         throw { status: 500, message: "Agora App ID not configured" };
       }
 
@@ -146,7 +146,7 @@ export class MeetingService {
         const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds;
 
 
-        const role = RtcRole.PUBLISHER;
+        const role = 1; // 1 = PUBLISHER, 2 = SUBSCRIBER or use 1 for PUBLISHER, 2 for SUBSCRIBER
 
         token = RtcTokenBuilder.buildTokenWithUid(
           appId,
@@ -158,7 +158,7 @@ export class MeetingService {
         );
 
       } else {
-        console.warn('⚠️ AGORA_APP_CERTIFICATE is not set. Generating a temporary token without certificate.');
+        console.warn('AGORA_APP_CERTIFICATE is not set. Generating a temporary token without certificate.');
       }
 
       return {
